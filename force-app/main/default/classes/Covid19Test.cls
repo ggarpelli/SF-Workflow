@@ -33,5 +33,5 @@ public class Covid19Test {
         Covid19.pacientesPais();
         // Note que não podemos verificar diretamente o output do System.debug
         // Mas podemos verificar se o método foi chamado sem erros
-    }
+    }//adding changes
 }
