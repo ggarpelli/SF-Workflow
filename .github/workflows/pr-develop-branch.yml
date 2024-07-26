@@ -1,4 +1,4 @@
-name: "Validate PR"
+name: "Validate PR Dev"
 
 on:
   pull_request:
@@ -96,7 +96,7 @@ jobs:
       - name: 'Scan code'
         run: |
           cd changed-sources
-          sf scanner run --format sarif --target './**/*.cls' --category "Security" --outfile 'apexScanResults.sarif'  
+          sf scanner run --format sarif --target './**/*.cls' --category "Design,Best Practices,Performance,Code Style,Security" --outfile 'apexScanResults.sarif'  
           cd ..
 
       - name: 'Upload SARIF file'

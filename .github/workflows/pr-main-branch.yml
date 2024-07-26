@@ -96,13 +96,13 @@ jobs:
       - name: 'Scan code'
         run: |
           cd changed-sources
-          sf scanner run --format sarif --target './**/*.cls' --category "Design,Best Practices,Performance,Code Style,Security" --outfile 'apexScanResults.sarif'  
+          sf scanner run --format sarif --target './**/*.cls' --category "Design,Best Practices,Performance,Code Style,Security" --outfile 'apexScanResults3.sarif'  
           cd ..
 
       - name: 'Upload SARIF file'
         uses: github/codeql-action/upload-sarif@v3
         with:
-          sarif_file: changed-sources/apexScanResults.sarif
+          sarif_file: changed-sources/apexScanResults3.sarif
 
       - name: 'Validate Deployment to Org - run specified tests'
         if: ${{ env.APEX_TESTS != 'all' }}
