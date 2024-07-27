@@ -9,8 +9,9 @@ on:
       - 'force-app/**'
 
 permissions:
-  contents: read
-  security-events: write
+  contents: write
+  issues: write
+  pull-requests: write
 
 jobs:
   validate-deployment-on-develop-org:
@@ -24,6 +25,7 @@ jobs:
       - name: 'Checkout source code'
         uses: actions/checkout@v4
         with:
+          token: ${{ secrets.PAT || secrets.GITHUB_TOKEN }}
           fetch-depth: 0
 
       - name: 'Read PR Body'
@@ -95,14 +97,15 @@ jobs:
           
       - name: 'Scan code'
         run: |
-          cd changed-sources
-          sf scanner run --format sarif --target './**/*.cls' --category "Design,Best Practices,Performance,Code Style,Security" --outfile 'apexScanResults.sarif'  
+          cd changed-sources/
+          sf scanner run --format sarif --target './**/*.cls' './**/*.trigger' --category "Design,Best Practices,Error Prone,Performance,Documentation,Code Style,Security" --outfile 'apexScanResults.sarif'
           cd ..
 
       - name: 'Upload SARIF file'
         uses: github/codeql-action/upload-sarif@v3
         with:
           sarif_file: changed-sources/apexScanResults.sarif
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: 'Validate Deployment to Org - run specified tests'
         if: ${{ env.APEX_TESTS != 'all' }}
